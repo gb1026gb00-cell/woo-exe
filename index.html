@@ -379,7 +379,7 @@ function extraStory(){
  return false;
 }
 
-function showEasters(){const labels=['요리 3회 실패','이상한 잠꼬대','최산이라는 이름의 인형','육아일기 숨겨진 문장','고백 연습','존재하지 않는 방문'];const content=labels.map((v,i)=>(s.easterFound.includes(String(i+1))?'✓ '+v:'🔒 ???')).join('\n');modal('🥚 이스터에그 · '+s.easterFound.length+'/6',esc(content)+(s.easterDone?'\n\n🔓 누가 누구를 키우는 걸까?':''),s.easterDone?[['역전 이벤트 다시 보기',()=>showGuardian()],['닫기',()=>{}]]:[['닫기',()=>{}]]);}
+function showEasters(){const labels=['요리 3회 실패','이상한 잠꼬대','최산이라는 이름의 인형','육아일기 숨겨진 문장','고백 연습','존재하지 않는 방문'];const content=labels.map((v,i)=>(s.easterFound.includes(String(i+1))?'✓ '+v:'🔒 ???')).join('\n');modal('🥚 이스터에그 · '+s.easterFound.length+'/6',esc(content)+(s.easterDone?'\n\n🔓 누가 누구를 키우는 걸까?':''),s.easterFound.length===6?(s.easterDone?[['역전 이벤트 다시 보기',()=>showGuardian()],['닫기',()=>{}]]:[['🔓 최산 사용설명서 열기',()=>showGuardian()],['닫기',()=>{}]]):[['닫기',()=>{}]]);}
 function dateEvent(){
  if(s.owned.includes('date_ticket')){modal('🎟️ 이미 다녀왔어',s.aff<=0?'우영: "그때 이야기 다시 하고 싶지 않아."':'우영: "산아, 다음에는 진짜 밖에서 만나자 ㅋㅋ"');return}
  if(s.aff<=0){modal('🎟️ 데이트 제안',s.aff<=-31?'우영: "……데이트? 지금 나한테 그 말을 해?"\n\n우영이는 단호하게 고개를 저었다.':'우영: "산아. 지금은 너랑 데이트할 마음이 없어."\n\n서로 가까워지기 전에 풀어야 할 이야기가 있었다.',[['알겠어. 억지로 하지 않을게.',()=>{s.trust=clamp(s.trust+3,0,100);note('우영이가 거절한 데이트를 강요하지 않았다.')}],['한 번만 같이 가면 안 돼?',()=>{change(-4);s.trust=clamp(s.trust-5,0,100);say('싫다고 했잖아.','angry')}]]);return}
