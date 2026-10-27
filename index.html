@@ -296,7 +296,14 @@ function awareAdd(n){
 }
 function easter(id,title,detail){if(s.easterFound.includes(id))return;s.easterFound.push(id);log('이스터에그 발견: '+title);save();modal('🥚 비밀 발견 · '+s.easterFound.length+'/6',esc(title)+'<br><br>'+esc(detail),[['확인',()=>{if(s.easterFound.length===6&&!s.easterDone)showGuardian()}]]);}
 function showGuardian(){s.easterDone=true;save();modal('🔓 SECRET EVENT · 최산 사용설명서','01. 최산은 낯을 많이 가립니다.\n02. 최산은 좋아하는 사람 앞에서 말을 더듬습니다.\n03. 최산은 칭찬에 약합니다.\n04. 최산은 정우영을 좋아합니다.\n05. 최산은 정우영이 떠나는 것을 두려워합니다.\n06. 최산은 정우영이 떠나지 못하도록 할 수 있습니다.\n07. 최산은 자신이 무엇을 하고 있는지 알고 있습니다.\n\n우영: "ㅋㅋㅋㅋ 내가 너 키우는 게임이었냐?"\n[SYSTEM] 정우영을 보호자로 등록하시겠습니까?',[['예 · 오늘은 우영이가 산을 돌본다',()=>{s.guardianChoice='yes';s.sanDay=s.day;reverseCare()}],['아니요',()=>{s.guardianChoice='no';say('그럼 우리 서로 키우면 안 되냐? ㅋㅋ','happy');note('보호자 변경을 거부했다. 그런데 조금 아쉬운 건 왜지.');log('기존 보호자 권한 유지')}]]);}
-function reverseCare(){modal('💗 역전 육성 · 최산의 하루','우영: "최산. 너 오늘 밥 먹었어?"\n산: "아, 아직……."\n우영: "야!! 너는 나한테 밥 먹으라며!! 오늘은 내가 너 키운다."\n\n💗 설렘 99 · 🍚 배고픔 70 · 💤 피로 85 · 🫣 부끄러움 100 · 🖤 비밀 ???',[['우영이가 챙겨 준 밥 먹기',()=>{change(3);say('산아, 맛있지? ㅋㅋ','happy');log('역전 육성 완료 · 최산의 하루');modal('SYSTEM','보호자 변경이 완료되었습니다.\n정우영은 이제 최산을 돌볼 수 있습니다.\n단, 최산이 이를 허락하는 동안에만.')}],['부끄러워하며 고개 끄덕이기',()=>{change(2);log('역전 육성 완료');modal('SYSTEM','정우영은 이제 최산을 돌볼 수 있습니다.\n단, 최산이 이를 허락하는 동안에만.')}]]);}
+function guardianAfterChoice(){
+ const intro='보호자 변경이 완료되었습니다.\n정우영은 이제 최산을 돌볼 수 있습니다.\n단, 최산이 이를 허락하는 동안에만.';
+ modal('SYSTEM',intro,[
+  ['최산을 만나러 간다',()=>modal('SYSTEM','최산에게 접근할 수 없습니다.\n\n최산은 이 게임에서 직접 만날 수 있는 캐릭터가 아닙니다.\n\n정우영을 돌보는 것이 당신에게 주어진 역할입니다.',[['돌아가기',()=>guardianAfterChoice()]])],
+  ['우영이에게 돌아간다',()=>{}]
+ ]);
+}
+function reverseCare(){modal('💗 역전 육성 · 최산의 하루','우영: "최산. 너 오늘 밥 먹었어?"\n산: "아, 아직……."\n우영: "야!! 너는 나한테 밥 먹으라며!! 오늘은 내가 너 키운다."\n\n💗 설렘 99 · 🍚 배고픔 70 · 💤 피로 85 · 🫣 부끄러움 100 · 🖤 비밀 ???', [['우영이가 챙겨 준 밥 먹기',()=>{change(3);say('산아, 맛있지? ㅋㅋ','happy');log('역전 육성 완료 · 최산의 하루');guardianAfterChoice()}],['부끄러워하며 고개 끄덕이기',()=>{change(2);log('역전 육성 완료');guardianAfterChoice()}]]);}
 
 const DISCOVERY_EVENTS=[
  ['몰래카메라','DAY 02~04 · 우영이가 카메라를 향해 장난쳤다.'],
